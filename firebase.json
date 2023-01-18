@@ -10,7 +10,10 @@
       "enabled": true,
       "port": 30000
     },
-    "singleProjectMode": true
+    "singleProjectMode": true,
+    "hosting": {
+      "port": 5000
+    }
   },
   "firestore": {
     "rules": "firestore.rules",
@@ -18,5 +21,13 @@
   },
   "storage": {
     "rules": "storage.rules"
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   }
 }
