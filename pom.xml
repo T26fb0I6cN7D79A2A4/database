@@ -18,6 +18,13 @@
   </properties>
 
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
+    <dependency>
+      <groupId>com.google.firebase</groupId>
+      <artifactId>firebase-admin</artifactId>
+      <version>9.1.1</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
