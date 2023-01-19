@@ -81,26 +81,107 @@ public class UserRepositoryInteractor implements UserRepository {
 
   @Override
   public User getUserByEmail(String email) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    String call = "CALL get_user_by_email(?);";
+
+    try {
+      Connection conn = db.getConnection();
+
+      CallableStatement callableStatement = conn.prepareCall(call);
+      callableStatement.setString(1, email);
+
+      ResultSet rs = callableStatement.executeQuery();
+
+      User user = new User();
+
+      if (rs.next()) {
+        user.setUid(rs.getString("uid"));
+        user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
+        user.setFullName(rs.getString("fullname"));
+        user.setAddress(rs.getString("address"));
+        user.setPhone(rs.getLong("phone"));
+      }
+
+      conn.close();
+
+      return user;
+    } catch (SQLException e) {
+      throw new IOException("Could not find user by email due to server error: " + e.getMessage());
+    }
   }
 
   @Override
-  public User addUser(User user) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+  public void addUser(User user) throws IOException {
+    String call = "CALL add_user(?, ?, ?, ?, ?);";
+
+    String email = user.getEmail();
+    String password = user.getEmail();
+    String fullname = user.getEmail();
+    String address = user.getEmail();
+    Long phone = user.getPhone();
+
+    try {
+      Connection conn = db.getConnection();
+
+      CallableStatement callableStatement = conn.prepareCall(call);
+
+      callableStatement.setString(1, email);
+      callableStatement.setString(2, password);
+      callableStatement.setString(3, fullname);
+      callableStatement.setString(4, address);
+      callableStatement.setLong(5, phone);
+
+      callableStatement.executeQuery();
+      conn.close();
+    } catch (SQLException e) {
+      throw new IOException("Could not add user due to server error: " + e.getMessage());
+    }
   }
 
   @Override
-  public User updateUser(String uid, User user) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+  public void updateUser(String uid, User user) throws IOException {
+    String call = "CALL update_user(?, ?, ?, ?, ?, ?);";
+
+    String email = user.getEmail();
+    String password = user.getEmail();
+    String fullname = user.getEmail();
+    String address = user.getEmail();
+    Long phone = user.getPhone();
+
+    try {
+      Connection conn = db.getConnection();
+
+      CallableStatement callableStatement = conn.prepareCall(call);
+
+      callableStatement.setString(1, uid);
+      callableStatement.setString(2, email);
+      callableStatement.setString(3, password);
+      callableStatement.setString(4, fullname);
+      callableStatement.setString(5, address);
+      callableStatement.setLong(6, phone);
+
+      callableStatement.executeQuery();
+      conn.close();
+    } catch (SQLException e) {
+      throw new IOException("Could not update user due to server error: " + e.getMessage());
+    }
   }
 
   @Override
   public void deleteUser(String uid) throws IOException {
-    // TODO Auto-generated method stub
+    String call = "CALL delete_user(?);";
 
+    try {
+      Connection conn = db.getConnection();
+
+      CallableStatement callableStatement = conn.prepareCall(call);
+      callableStatement.setString(1, uid);
+      callableStatement.executeQuery();
+
+      conn.close();
+    } catch (SQLException e) {
+      throw new IOException("Could not delete user due to server error: " + e.getMessage());
+    }
   }
 
 }
